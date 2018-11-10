@@ -12,7 +12,10 @@ Page({
   data: {
     fileId: null,
     desc: '',
-    isFat: false
+    isFat: false,
+    username: null,
+    filePath: null,
+    cloudPath: null
   },
 
   /**
@@ -23,27 +26,60 @@ Page({
   },
 
   judgeFit: function() {
-    var that = this
     wx.cloud.callFunction({
       name: 'getFat',
       data: {}
     }).then(res => {
-      that.setData({
-        isFit: res.result.isFit,
-        fileId: res.result.fit.fileId
-      })
-      // console.log('judgeFit succ res:' + JSON.stringify(res))
+      if (res.result.isFit) {
+        const fileId = res.result.fit.fileId
+        this.setData({
+          isFit: res.result.isFit,
+          fileId: fileId,
+          username: res.result.fit.username
+        })
+        console.log('已打卡')
+      } else {
+        this.setData({
+          isFit: res.result.isFit,
+          username: res.result.fit.username
+        })
+      }
+      console.log('judgeFit succ res:' + JSON.stringify(res))
     }).catch(res => {
       console.log('judgeFit fail res:' + JSON.stringify(res))
     })
   },
 
   onGetUserInfo: function(e) {
-    console.log(e.detail.errMsg)
-    console.log(e.detail.userInfo)
-    console.log(e.detail.rawData)
+    if (app.globalData.userInfo == null) {
+      console.log('没有userinfo')
+    } else {
+      console.log('data:' + JSON.stringify(app.globalData.userInfo))
+    }
 
-    // console.log('data:'+app.globalData.userInfo)
+    if (this.data.username == null || this.data.username.length == 0) {
+      wx.showToast({
+        title: '请填写真实姓名',
+      })
+      return;
+    }
+
+    if (this.data.desc == null || this.data.desc.length == 0) {
+      wx.showToast({
+        title: '请填写锻炼内容',
+      })
+      return;
+    }
+
+    this.doFit(e.detail.userInfo)
+  },
+
+  usernameChanged: function(e) {
+    console.log("input = " + e.detail.value);
+
+    this.setData({
+      username: e.detail.value
+    })
   },
 
   inputChanged: function(e) {
@@ -54,7 +90,11 @@ Page({
   },
 
   testBtnClick: function(e) {
-    console.log('openid:' + app.globalData.openid);
+    console.log('openid:' + app.globalData.openId);
+  },
+
+  imageClick: function(e) {
+    this.uploadBtnClick()
   },
 
   uploadBtnClick: function(e) {
@@ -73,38 +113,23 @@ Page({
         const filePath = res.tempFilePaths[0]
 
         // 上传图片
-        const cloudPath = 'my-image' + filePath.match(/\.[^.]+?$/)[0]
+        const now = new Date()
+        const month = now.getMonth() + 1
+        const imageName = app.globalData.openId+'/'+now.getFullYear()+'-'+month+'-'+now.getDay()
+        const cloudPath = imageName + filePath.match(/\.[^.]+?$/)[0]
+        console.log('cloudPath:'+cloudPath)
         wx.cloud.uploadFile({
           cloudPath,
           filePath,
           success: res => {
             console.log('[上传文件] 成功：', res)
 
-            const fileID = res.fileID
-
-            db.collection('fits').add({
-              data: {
-                description: that.data.desc,
-                createTime: db.serverDate(),
-                fileId: fileID,
-                cloudPath: app.globalData.cloudPath,
-                filePath: filePath
-              }
-            }).then(res=> {
-              console.log('save succ:' + JSON.stringify(res));
-              that.setData({
-                fileId: fileID,
-                isFit: true
-              });
-              wx.showToast({
-                title: '打卡成功',
-              })
-            }).catch(res=> {
-              console.log('save error:' + JSON.stringify(res));
-              wx.showToast({
-                title: '打卡异常了，请重新打卡',
-              })
-            })
+            const fileID = res.fileID;
+            that.setData({
+              fileId: fileID,
+              filePath: filePath,
+              cloudPath: cloudPath
+            });
           },
           fail: e => {
             console.error('[上传文件] 失败：', e)
@@ -122,6 +147,35 @@ Page({
       fail: e => {
         console.error(e)
       }
+    })
+  },
+
+  // 打卡
+  doFit: function(userInfo) {
+    var that = this
+    db.collection('fits').add({
+      data: {
+        description: this.data.desc,
+        createTime: db.serverDate(),
+        fileId: this.data.fileId,
+        cloudPath: app.globalData.cloudPath,
+        filePath: this.data.filePath,
+        username: this.data.username,
+        userInfo: userInfo
+      }
+    }).then(res => {
+      console.log('save succ:' + JSON.stringify(res));
+      that.setData({
+        isFit: true
+      });
+      wx.showToast({
+        title: '打卡成功',
+      })
+    }).catch(res => {
+      console.log('save error:' + JSON.stringify(res));
+      wx.showToast({
+        title: '打卡异常了，请重新打卡',
+      })
     })
   }
 })
