@@ -15,7 +15,9 @@ Page({
     isFat: false,
     username: null,
     filePath: null,
-    cloudPath: null
+    cloudPath: null,
+    user: null,
+    request: 0 // 未请求0，成功1，失败2
   },
 
   /**
@@ -23,9 +25,24 @@ Page({
    */
   onLoad: function (options) {
     this.judgeFit()
+
+    var now = new Date()
+    const year = now.getFullYear()
+    const month = now.getMonth() + 1
+    const day = now.getDate()
+    const nowStr = year+'-'+month+'-'+day
+
+    const week = now.getDay()
+    console.log('week:' + week+', date:'+now.getDate())
+    var before = new Date(nowStr)
+    before.setDate(now.getDate() - week)
+    console.log(before)
   },
 
   judgeFit: function() {
+    wx.showLoading({
+      title: '数据加载中...',
+    })
     wx.cloud.callFunction({
       name: 'getFat',
       data: {}
@@ -35,18 +52,27 @@ Page({
         this.setData({
           isFit: res.result.isFit,
           fileId: fileId,
-          username: res.result.fit.username
+          username: res.result.fit.username,
+          user: res.result.user,
+          request: 1
         })
         console.log('已打卡')
       } else {
         this.setData({
           isFit: res.result.isFit,
-          username: res.result.fit.username
+          username: res.result.fit.username,
+          user: res.result.user,
+          request: 1
         })
       }
       console.log('judgeFit succ res:' + JSON.stringify(res))
+      wx.hideLoading()
     }).catch(res => {
       console.log('judgeFit fail res:' + JSON.stringify(res))
+      this.setData({
+        request: 2
+      })
+      wx.hideLoading()
     })
   },
 
@@ -71,6 +97,28 @@ Page({
       return;
     }
 
+    if (this.data.fileId == null) {
+      wx.showToast({
+        title: '请上传打卡图片',
+      })
+      return;
+    }
+
+    if (this.data.user == null) {
+      console.log('保存用户')
+      wx.cloud.callFunction({
+        name: 'saveUser',
+        data: {
+          'user': e.detail.userInfo,
+          'username': this.data.username
+        }
+      }).then(res=> {
+        console.log('保存用户成功：' + JSON.stringify(res))
+      }).catch(res=> {
+        console.log('保存用户错误：'+JSON.stringify(res))
+      })
+    }
+
     this.doFit(e.detail.userInfo)
   },
 
@@ -78,7 +126,7 @@ Page({
     console.log("input = " + e.detail.value);
 
     this.setData({
-      username: e.detail.value
+      username: e.detail.value,
     })
   },
 
@@ -161,7 +209,7 @@ Page({
         cloudPath: app.globalData.cloudPath,
         filePath: this.data.filePath,
         username: this.data.username,
-        userInfo: userInfo
+        wxname: userInfo.nickName
       }
     }).then(res => {
       console.log('save succ:' + JSON.stringify(res));

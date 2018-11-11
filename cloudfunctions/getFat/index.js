@@ -26,9 +26,21 @@ exports.main = async (event, context) => {
   console.log('nowStr:' + nowStr + ', fitStr:' + fitStr)
   const isFit = (fitStr == nowStr)
 
+  const userResult = await db.collection('users').where({
+    openId: event.userInfo.openId
+  }).limit(1).get().then(res=> {
+    return {
+      data: res.data
+    }
+  })
+
+  console.log('user:' + JSON.stringify(userResult))
+
+
   return {
     isFit: isFit,
-    fit: fit
+    fit: fit,
+    user: userResult.data[0]
   }
   
 }
