@@ -1,0 +1,10 @@
+.manager_row {
+  display: flex;
+  flex-direction: row
+}
+
+.home_icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+}

@@ -1,1 +1,5 @@
-{}
+{
+  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "打卡记录",
+  "backgroundTextStyle": "dark"
+}

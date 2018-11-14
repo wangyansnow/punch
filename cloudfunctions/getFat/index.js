@@ -16,14 +16,14 @@ exports.main = async (event, context) => {
       errMsg: acc.errMsg
     }
   })
-  console.log('cloud.fits:'+JSON.stringify(fits))
+  // console.log('cloud.fits:'+JSON.stringify(fits))
   const fit = fits.data[0]
-  console.log('yun fit:' + JSON.stringify(fit))
+  // console.log('yun fit:' + JSON.stringify(fit))
   const now = new Date()
   const nowStr = 'date' + now.getFullYear() + now.getMonth() + now.getDate()
   const fitStr = 'date' + fit.createTime.getFullYear() + fit.createTime.getMonth() + fit.createTime.getDate()
 
-  console.log('nowStr:' + nowStr + ', fitStr:' + fitStr)
+  // console.log('nowStr:' + nowStr + ', fitStr:' + fitStr)
   const isFit = (fitStr == nowStr)
 
   const userResult = await db.collection('users').where({
@@ -34,7 +34,7 @@ exports.main = async (event, context) => {
     }
   })
 
-  console.log('user:' + JSON.stringify(userResult))
+  // console.log('user:' + JSON.stringify(userResult))
 
 
   return {

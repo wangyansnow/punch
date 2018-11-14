@@ -1,0 +1,11 @@
+<view class='wy_container'>
+本周打卡{{myFitCount}}次，很棒哟！
+<button type='primary' bindtap='test'>获取所有成员本周打卡情况</button>
+<!-- 排名 头像  名称 打卡次数-->
+<view wx:for='{{weeks}}' wx:key='unique_{{index}}' class='manager_row'>
+  <text>{{index + 1}}</text>
+  <image src='{{item.user.userInfo.avatarUrl}}' class='home_icon'></image>
+  <text>{{item.user.username}}</text>
+  <text>{{item.count}}</text>
+</view>
+</view>

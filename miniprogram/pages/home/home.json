@@ -1,1 +1,5 @@
-{}
+{
+  "navigationBarTitleText": "乐我打卡",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
+}

@@ -25,18 +25,10 @@ Page({
    */
   onLoad: function (options) {
     this.judgeFit()
+  },
 
-    var now = new Date()
-    const year = now.getFullYear()
-    const month = now.getMonth() + 1
-    const day = now.getDate()
-    const nowStr = year+'-'+month+'-'+day
-
-    const week = now.getDay()
-    console.log('week:' + week+', date:'+now.getDate())
-    var before = new Date(nowStr)
-    before.setDate(now.getDate() - week)
-    console.log(before)
+  onPullDownRefresh: function() {
+    this.judgeFit()
   },
 
   judgeFit: function() {
@@ -65,23 +57,29 @@ Page({
           request: 1
         })
       }
-      console.log('judgeFit succ res:' + JSON.stringify(res))
+      app.globalData.username = res.result.fit.username
+      // console.log('judgeFit succ res:' + JSON.stringify(res))
       wx.hideLoading()
+
+      wx.stopPullDownRefresh()
     }).catch(res => {
       console.log('judgeFit fail res:' + JSON.stringify(res))
       this.setData({
         request: 2
       })
       wx.hideLoading()
+      wx.stopPullDownRefresh()
     })
   },
 
   onGetUserInfo: function(e) {
-    if (app.globalData.userInfo == null) {
-      console.log('没有userinfo')
-    } else {
-      console.log('data:' + JSON.stringify(app.globalData.userInfo))
-    }
+
+    if (e.detail.userInfo == null) {
+      wx.showToast({
+        title: '请先授权',
+      })
+      return;
+    } 
 
     if (this.data.username == null || this.data.username.length == 0) {
       wx.showToast({
@@ -139,6 +137,8 @@ Page({
 
   testBtnClick: function(e) {
     console.log('openid:' + app.globalData.openId);
+
+    this.judgeFit()
   },
 
   imageClick: function(e) {

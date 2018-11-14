@@ -43,6 +43,7 @@ App({
 
   globalData: {
     userInfo: null,
-    openId: null
+    openId: null,
+    username: ''
   }
 })
