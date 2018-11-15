@@ -23,7 +23,7 @@ exports.main = async (event, context) => {
   const nowStr = 'date' + now.getFullYear() + now.getMonth() + now.getDate()
   const fitStr = 'date' + fit.createTime.getFullYear() + fit.createTime.getMonth() + fit.createTime.getDate()
 
-  // console.log('nowStr:' + nowStr + ', fitStr:' + fitStr)
+  console.log('nowStr:' + nowStr + ', fitStr:' + fitStr)
   const isFit = (fitStr == nowStr)
 
   const userResult = await db.collection('users').where({

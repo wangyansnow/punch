@@ -17,15 +17,26 @@ Page({
 
   onLoad: function (options) {
     this.myFit()
+
+    const now = new Date()
+    const yesterday = new Date('2018-11-14 10:25:35')
+    // yesterday.setDate(yesterday.getDate() - 1)
+
+    console.log('now:' + now + ", yesterday:" + yesterday)
+    var minus = parseInt(now - yesterday) / 24 / 60 / 60 / 1000;
+    console.log('minus:'+minus)
+
   },
 
-  weekFit: function() {
+  weekFit: function(offset) {
     wx.showLoading({
       title: '数据加载中...',
     })
     wx.cloud.callFunction({
       name: 'weekFit',
-      data: 0
+      data: {
+        offset: offset
+      }
     }).then(res=> {
       this.handleResult(res.result)
       wx.hideLoading()
@@ -59,10 +70,14 @@ Page({
       return a > b
     } 
 
-    this.weekFit()
+    this.weekFit(0)
     var arr = [10, 23, 5, 90, 41, 6, 7];
     arr.sort(compare);
     console.log(arr);
+  },
+
+  lastWeekBtnClick: function() {
+    this.weekFit(1)
   },
 
   myFit: function() {
@@ -96,6 +111,10 @@ Page({
       console.log('res:' + JSON.stringify(res))
       wx.stopPullDownRefresh()
     })
+  },
+
+  onShareAppMessage: function () {
+    
   }
   
 })

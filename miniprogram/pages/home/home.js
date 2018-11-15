@@ -225,5 +225,9 @@ Page({
         title: '打卡异常了，请重新打卡',
       })
     })
+  },
+
+  onShareAppMessage: function() {
+
   }
 })
