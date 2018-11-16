@@ -20,14 +20,19 @@ Page({
     request: 0, // 未请求0，成功1，失败2
     year: '',
     month: '',
+    imgsrc: '../../images/add.png'
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // this.judgeFit()
+    this.judgeFit()
 
+    this.setWeek()
+  },
+
+  setWeek: function() {
     const now = new Date()
 
     const year = now.getFullYear() + '年'
@@ -36,9 +41,9 @@ Page({
     const week = now.getDay()
     const weeks = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六',]
 
-    console.log('year:'+year+", month:"+month+', day:'+day+', week:'+weeks[week])
+    console.log('year:' + year + ", month:" + month + ', day:' + day + ', week:' + weeks[week])
 
-    month = month+'月'+day+'日'+' '+weeks[week]
+    month = month + '月' + day + '日' + ' ' + weeks[week]
     this.setData({
       year: year,
       month: month
@@ -68,7 +73,9 @@ Page({
           fileId: fileId,
           username: res.result.fit.username,
           user: res.result.user,
-          request: 1
+          request: 1,
+          imgsrc: fileId,
+          desc: res.result.fit.description
         })
         console.log('已打卡')
       } else {
@@ -95,7 +102,7 @@ Page({
   },
 
   onGetUserInfo: function(e) {
-
+    console.log('拿到用户信息')
     if (e.detail.userInfo == null) {
       wx.showToast({
         title: '请先授权',
@@ -112,7 +119,7 @@ Page({
 
     if (this.data.desc == null || this.data.desc.length == 0) {
       wx.showToast({
-        title: '请填写锻炼内容',
+        title: '请填写运动类型',
       })
       return;
     }
@@ -157,13 +164,12 @@ Page({
     })
   },
 
-  testBtnClick: function(e) {
-    console.log('openid:' + app.globalData.openId);
-
-    this.judgeFit()
-  },
-
   imageClick: function(e) {
+    if (this.data.isFit) {
+      console.log('今日已打卡')
+      return;
+    }
+
     this.uploadBtnClick()
   },
 
@@ -185,7 +191,12 @@ Page({
         // 上传图片
         const now = new Date()
         const month = now.getMonth() + 1
-        const imageName = app.globalData.openId+'/'+now.getFullYear()+'-'+month+'-'+now.getDay()
+        var username = that.data.username
+        if (that.data.user != null) {
+          username = that.data.user.username
+        } 
+
+        const imageName = username + app.globalData.openId+'/'+now.getFullYear()+'-'+month+'-'+now.getDate()
         const cloudPath = imageName + filePath.match(/\.[^.]+?$/)[0]
         console.log('cloudPath:'+cloudPath)
         wx.cloud.uploadFile({
@@ -198,7 +209,8 @@ Page({
             that.setData({
               fileId: fileID,
               filePath: filePath,
-              cloudPath: cloudPath
+              cloudPath: cloudPath,
+              imgsrc: fileID,
             });
           },
           fail: e => {
