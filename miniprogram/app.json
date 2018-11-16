@@ -1,8 +1,8 @@
 {
   "cloud": true,
   "pages": [
-    "pages/manager/manager",
-    "pages/home/home"
+    "pages/home/home",
+    "pages/manager/manager"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -12,6 +12,8 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
+    "color": "#3e3e4d20",
+    "selectedColor": "#3e3e4d",
     "list": [{
       "pagePath": "pages/home/home",
       "text": "打卡",

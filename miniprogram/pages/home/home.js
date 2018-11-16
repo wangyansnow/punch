@@ -17,7 +17,6 @@ Page({
     filePath: null,
     cloudPath: null,
     user: null,
-    request: 0, // 未请求0，成功1，失败2
     year: '',
     month: '',
     imgsrc: '../../images/add.png'
@@ -28,7 +27,6 @@ Page({
    */
   onLoad: function (options) {
     this.judgeFit()
-
     this.setWeek()
   },
 
@@ -70,12 +68,11 @@ Page({
         const fileId = res.result.fit.fileId
         this.setData({
           isFit: res.result.isFit,
-          fileId: fileId,
+          // fileId: fileId,
           username: res.result.fit.username,
           user: res.result.user,
-          request: 1,
-          imgsrc: fileId,
-          desc: res.result.fit.description
+          // imgsrc: fileId,
+          // desc: res.result.fit.description
         })
         console.log('已打卡')
       } else {
@@ -83,7 +80,6 @@ Page({
           isFit: res.result.isFit,
           username: res.result.fit.username,
           user: res.result.user,
-          request: 1
         })
       }
       app.globalData.username = res.result.fit.username
@@ -93,9 +89,6 @@ Page({
       wx.stopPullDownRefresh()
     }).catch(res => {
       console.log('judgeFit fail res:' + JSON.stringify(res))
-      this.setData({
-        request: 2
-      })
       wx.hideLoading()
       wx.stopPullDownRefresh()
     })
@@ -165,11 +158,6 @@ Page({
   },
 
   imageClick: function(e) {
-    if (this.data.isFit) {
-      console.log('今日已打卡')
-      return;
-    }
-
     this.uploadBtnClick()
   },
 
