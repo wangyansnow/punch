@@ -17,14 +17,32 @@ Page({
     filePath: null,
     cloudPath: null,
     user: null,
-    request: 0 // 未请求0，成功1，失败2
+    request: 0, // 未请求0，成功1，失败2
+    year: '',
+    month: '',
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.judgeFit()
+    // this.judgeFit()
+
+    const now = new Date()
+
+    const year = now.getFullYear() + '年'
+    var month = now.getMonth() + 1
+    const day = now.getDate()
+    const week = now.getDay()
+    const weeks = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六',]
+
+    console.log('year:'+year+", month:"+month+', day:'+day+', week:'+weeks[week])
+
+    month = month+'月'+day+'日'+' '+weeks[week]
+    this.setData({
+      year: year,
+      month: month
+    })
   },
 
   onPullDownRefresh: function() {

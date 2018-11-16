@@ -1,8 +1,8 @@
 {
   "cloud": true,
   "pages": [
-    "pages/manager/manager",
-    "pages/home/home"
+    "pages/home/home",
+    "pages/manager/manager"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -15,13 +15,13 @@
     "list": [{
       "pagePath": "pages/home/home",
       "text": "打卡",
-      "iconPath": "images/news.png",
-      "selectedIconPath": "images/news_s.png"
+      "iconPath": "images/tab_clockin_icn_unselected.png",
+      "selectedIconPath": "images/tab_clockin_icn_selected.png"
     }, {
       "pagePath": "pages/manager/manager",
-      "text": "管理",
-      "iconPath": "images/user.png",
-      "selectedIconPath": "images/user_s.png"
+      "text": "记录",
+      "iconPath": "images/tab_record_icn_unselected.png",
+      "selectedIconPath": "images/tab_record_icn_selected.png"
     }]
   }
 }

@@ -1,26 +1,16 @@
-<view wx:if='{{request != 0}}' class='wy_container'>
-  <view wx:if="{{isFit}}">
-    <image src='{{fileId}}' mode='widthFix' class='home_image'></image>
-    <button type='primary' bindtap='testBtnClick'>今日已打卡</button>
-  </view>
-  <view wx:else>
-    <text>今天锻炼辛苦了，打个卡好好休息吧☺</text>
-    <input wx:if='{{user == null}}' placeholder='请输入您的姓名' bindinput='usernameChanged' class='home_input'></input>
-    <input placeholder='请输入您的锻炼项目' bindinput='inputChanged' class='home_input'/>
-    <view wx:if="{{fileId == null}}">
-      <button type='primary' bindtap='uploadBtnClick'>上传照片</button>
+<view class='wy_container'>
+  <view class='wy_topView'>
+    <text class='wy_year'>{{year}}</text>
+    <text class='wy_month'>{{month}}</text>
+    <view class='wy_icon'>
+      <open-data type="userAvatarUrl"></open-data>
     </view>
-    <view wx:else>
-      <image src='{{fileId}}' mode='widthFix' bindtap='imageClick' class='home_image'></image>
-    </view>
-    <button type='primary' open-type='getUserInfo' bindgetuserinfo='onGetUserInfo'>打卡</button>
   </view>
-
-  <!-- <open-data type="groupName" open-gid="xxxxxx"></open-data>
-  <open-data type="userGender" lang="zh_CN"></open-data>
-  <open-data type="userNickName" lang="zh_CN"></open-data> 
-  <open-data type="userAvatarUrl"></open-data>  -->
-</view>
-<view wx:if='{{request == 2}}'>
-  <button bindtap='judgeFit'>点击刷新</button>
+  <view class='wy_cardView'>
+    <text class='card_title'>锻炼辛苦了，打完卡好好休息吧🙂</text>
+    <input placeholder='请输入姓名' class='home_input'></input>
+    <input placeholder='请输入运动类型和时间' class='home_input'></input>
+    <image src='../../images/add.png' class='home_image' mode='aspectFit'></image>
+    <button class='fitBtn'>打卡</button>
+  </view>
 </view>
