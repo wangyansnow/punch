@@ -8,30 +8,33 @@ Page({
 
   data: {
     myFitCount: '',
-    weeks: null
+    weeks: null,
+    isLastWeek: false,
   },
 
   onPullDownRefresh: function() {
-    this.myFit();
+    this.requestData()
   },
 
   onLoad: function (options) {
-    this.myFit()
-
-    const now = new Date()
-    const yesterday = new Date('2018-11-14 10:25:35')
-    // yesterday.setDate(yesterday.getDate() - 1)
-
-    console.log('now:' + now + ", yesterday:" + yesterday)
-    var minus = parseInt(now - yesterday) / 24 / 60 / 60 / 1000;
-    console.log('minus:'+minus)   
-
-    const offset = now.getTimezoneOffset()
-    var wy_date = new Date(now.getTime() + offset * 60000)
-    console.log('offset:'+offset+', wy_date:'+wy_date)
+    this.requestData()
   },
 
-  weekFit: function(offset) {
+  requestData: function() {
+    this.myFit()
+    this.weekFit()
+  },
+
+  weekFit: function() {
+    var offset = 0;
+    if (this.data.isLastWeek) {
+      offset = 1;
+
+      console.log('加载上周数据');
+    } else {
+      console.log('加载本周数据');
+    }
+
     wx.showLoading({
       title: '数据加载中...',
     })
@@ -57,10 +60,6 @@ Page({
     function compare(u1, u2) {
       return u1.count < u2.count
     }
-
-    result[2].count = 3
-    result[0].count = 7
-    result[1].count = 13
     result.sort(compare)
 
     this.setData({
@@ -69,21 +68,20 @@ Page({
     // console.log('succ res:' + JSON.stringify(result))
   },
 
-  test: function() {
-    console.log('test')
+  thisWeekBtnClick: function() {
+    this.setData({
+      isLastWeek: false
+    })
 
-    function compare(a, b) { // 升序
-      return a > b
-    } 
-
-    this.weekFit(0)
-    var arr = [10, 23, 5, 90, 41, 6, 7];
-    arr.sort(compare);
-    console.log(arr);
+    this.requestData()
   },
 
   lastWeekBtnClick: function() {
-    this.weekFit(1)
+    this.setData({
+      isLastWeek: true
+    })
+
+    this.requestData()
   },
 
   myFit: function() {
@@ -91,22 +89,37 @@ Page({
     const hour = now.getHours()
     const min = now.getMinutes()
     const seconds = now.getSeconds()
-    
+
     var timestamp = Date.parse(now) / 1000;
     timestamp = timestamp - hour * 3600 - min * 60 - seconds
+    const todayZeroTime = new Date(timestamp * 1000) // 凌晨时间
 
     var week = now.getDay() - 1
     if (week == -1) {
       week = 6
     }
-    var before = new Date(timestamp * 1000)
-    before.setDate(now.getDate() - week)
-    console.log('before:'+before)
+
+    var fromTime;
+    var toTime;
+
+    // 2. 确定时间段
+    if (this.data.isLastWeek) { // 上周
+      fromTime = new Date(timestamp * 1000)
+      fromTime.setDate(now.getDate() - week - 7)
+
+      toTime = new Date(timestamp * 1000)
+      toTime.setDate(now.getDate() - week)
+
+    } else { // 本周
+      fromTime = new Date(timestamp * 1000)
+      fromTime.setDate(now.getDate() - week)
+      toTime = now
+    }
 
     const openId = app.globalData.openId
     db.collection('fits').where({
       _openid: openId,
-      createTime: _.gt(before).and(_.lt(now))
+      createTime: _.gt(fromTime).and(_.lt(toTime))
     }).count().then(res=> {
       // console.log('res:'+res.total)
       this.setData({

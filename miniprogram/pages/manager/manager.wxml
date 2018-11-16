@@ -1,12 +1,27 @@
 <view class='wy_container'>
-本周打卡{{myFitCount}}次，很棒哟！
-<button type='primary' bindtap='test'>获取所有成员本周打卡情况</button>
-<button type='primary' bindtap='lastWeekBtnClick'>获取所有成员上周打卡情况</button>
+  <view class='topView'>
+    <view class='wy_icon'>
+      <open-data type="userAvatarUrl"></open-data>
+    </view>
+    <text class='fit_title'>{{isLastWeek ? '上周' : '本周'}}已打卡{{myFitCount}}次，很棒哟！</text>
+  </view>
+  <text class='fit_all'>所有成员打卡记录</text>
+  <view wx:if='{{isLastWeek}}' class='btn_view'>
+    <button class='btn' bindtap='thisWeekBtnClick'>本周</button>
+    <button class='btn' bindtap='lastWeekBtnClick' style='background: #e5e5e5; color: #e54c66'>上周</button>
+  </view>
+  <view wx:else class='btn_view'>
+    <button class='btn' style='background: #e5e5e5; color: #e54c66' bindtap='thisWeekBtnClick'>本周</button>
+    <button class='btn' bindtap='lastWeekBtnClick'>上周</button>
+  </view>
+
 <!-- 排名 头像  名称 打卡次数-->
-<view wx:for='{{weeks}}' wx:key='unique_{{index}}' class='manager_row'>
-  <text>{{index + 1}}</text>
-  <image src='{{item.user.userInfo.avatarUrl}}' class='home_icon'></image>
-  <text>{{item.user.username}}</text>
-  <text>{{item.count}}</text>
-</view>
+  <view wx:for='{{weeks}}' wx:key='unique_{{index}}' class='manager_row'>
+    <!-- <text>{{index + 1}}</text> -->
+    <image src='{{item.user.userInfo.avatarUrl}}' class='user_icon'></image>
+    <view class='user_label_view'>
+      <text class='user_name'>{{item.user.username}}</text>
+    <text class='user_fit_count'>{{isLastWeek ? '上周' : '本周'}}{{item.count}}次</text>
+    </view>
+  </view>
 </view>
