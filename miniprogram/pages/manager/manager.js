@@ -24,18 +24,24 @@ Page({
 
     console.log('now:' + now + ", yesterday:" + yesterday)
     var minus = parseInt(now - yesterday) / 24 / 60 / 60 / 1000;
-    console.log('minus:'+minus)
+    console.log('minus:'+minus)   
 
+    const offset = now.getTimezoneOffset()
+    var wy_date = new Date(now.getTime() + offset * 60000)
+    console.log('offset:'+offset+', wy_date:'+wy_date)
   },
 
   weekFit: function(offset) {
     wx.showLoading({
       title: '数据加载中...',
     })
+    const now = new Date()
+    const timeOffset = now.getTimezoneOffset()
     wx.cloud.callFunction({
       name: 'weekFit',
       data: {
-        offset: offset
+        offset: offset,
+        timeOffset: timeOffset
       }
     }).then(res=> {
       this.handleResult(res.result)
@@ -102,7 +108,7 @@ Page({
       _openid: openId,
       createTime: _.gt(before).and(_.lt(now))
     }).count().then(res=> {
-      console.log('res:'+res.total)
+      // console.log('res:'+res.total)
       this.setData({
         myFitCount: res.total
       })

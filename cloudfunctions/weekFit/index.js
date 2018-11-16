@@ -14,6 +14,7 @@ exports.main = async (event, context) => {
   console.log('users:'+JSON.stringify(users))
 
   var now = new Date()
+  now = new Date(now.getTime() - event.timeOffset * 60000)
   const hour = now.getHours()
   const min = now.getMinutes()
   const seconds = now.getSeconds()

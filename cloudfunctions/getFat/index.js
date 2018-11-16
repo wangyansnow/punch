@@ -16,15 +16,18 @@ exports.main = async (event, context) => {
       errMsg: acc.errMsg
     }
   })
-  // console.log('cloud.fits:'+JSON.stringify(fits))
   const fit = fits.data[0]
-  // console.log('yun fit:' + JSON.stringify(fit))
-  const now = new Date()
+
+  const wy_now = new Date()
+  var now = new Date()
+  now = new Date(now.getTime() - event.offset * 60000);
+  console.log('wy_now:' + wy_now + ', now:'+now)
+
   const nowStr = 'date' + now.getFullYear() + now.getMonth() + now.getDate()
   const fitStr = 'date' + fit.createTime.getFullYear() + fit.createTime.getMonth() + fit.createTime.getDate()
 
   console.log('nowStr:' + nowStr + ', fitStr:' + fitStr)
-  const isFit = (fitStr == nowStr)
+  var isFit = (fitStr == nowStr)
 
   const userResult = await db.collection('users').where({
     openId: event.userInfo.openId

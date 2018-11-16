@@ -35,9 +35,13 @@ Page({
     wx.showLoading({
       title: '数据加载中...',
     })
+    const now = new Date()
+    const offset = now.getTimezoneOffset()
     wx.cloud.callFunction({
       name: 'getFat',
-      data: {}
+      data: {
+        offset: offset
+      }
     }).then(res => {
       if (res.result.isFit) {
         const fileId = res.result.fit.fileId
