@@ -212,7 +212,6 @@ Page({
             wx.hideLoading()
           }
         })
-
       },
       fail: e => {
         console.error(e)
