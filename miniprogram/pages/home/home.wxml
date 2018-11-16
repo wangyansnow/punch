@@ -9,9 +9,11 @@
   <view class='wy_cardView'>
     <text wx:if='{{!isFit}}' class='card_title'>锻炼辛苦了，打完卡好好休息吧🙂</text>
     <text wx:else class='card_title'>今天已经打卡</text>
-    <input wx:if='{{user == null}}' placeholder='请输入姓名' class='home_input' placeholder-style='margin-left:12px' bindinput='usernameChanged'></input>
-    <input placeholder='请输入运动类型和时间' class='home_input' placeholder-style='margin-left:12px' bindinput='inputChanged'></input>
-    <image src='{{imgsrc}}' class='home_image' mode='scaleToFill' bindtap='imageClick'></image>
-    <button class='fitBtn' open-type='getUserInfo' bindgetuserinfo='onGetUserInfo' >{{isFit ? '再打一次' : '打卡'}}</button>
+    <form>
+      <input wx:if='{{user == null}}' placeholder='请输入姓名' class='home_input' placeholder-style='margin-left:12px' bindinput='usernameChanged'></input>
+      <input placeholder='请输入运动类型和时间' class='home_input' placeholder-style='margin-left:12px' bindinput='inputChanged'></input>
+      <image src='{{imgsrc}}' class='home_image' mode='scaleToFill' bindtap='imageClick'></image>
+      <button class='fitBtn' open-type='getUserInfo' bindgetuserinfo='onGetUserInfo' form-type='reset'>{{isFit ? '再打一次' : '打卡'}}</button>
+    </form>
   </view>
 </view>

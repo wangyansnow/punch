@@ -12,7 +12,7 @@ Page({
   data: {
     fileId: null,
     desc: '',
-    isFat: false,
+    isFit: false,
     username: null,
     filePath: null,
     cloudPath: null,
@@ -184,7 +184,7 @@ Page({
           username = that.data.user.username
         } 
 
-        const imageName = username + app.globalData.openId+'/'+now.getFullYear()+'-'+month+'-'+now.getDate()
+        const imageName = username + app.globalData.openId+'/'+now.getFullYear()+'-'+month+'-'+now.getDate()+'-'+now.getHours()+'-'+now.getMinutes()+'-'+now.getSeconds()
         const cloudPath = imageName + filePath.match(/\.[^.]+?$/)[0]
         console.log('cloudPath:'+cloudPath)
         wx.cloud.uploadFile({
@@ -236,15 +236,20 @@ Page({
     }).then(res => {
       console.log('save succ:' + JSON.stringify(res));
       that.setData({
-        isFit: true
+        isFit: true,
+        desc: '',
+        fileId: null,
+        imgsrc: '../../images/add.png'
       });
       wx.showToast({
         title: '打卡成功',
+        duration: 2000
       })
     }).catch(res => {
       console.log('save error:' + JSON.stringify(res));
       wx.showToast({
         title: '打卡异常了，请重新打卡',
+        duration: 1.0
       })
     })
   },
