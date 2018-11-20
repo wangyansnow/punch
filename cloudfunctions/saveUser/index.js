@@ -12,7 +12,7 @@ exports.main = async (event, context) => {
   }).count()
   const count = countResult.total
   console.log('result:'+JSON.stringify(countResult)+', count:'+count)
-
+  
   if (count > 0) {
     return {
       isSave: true,

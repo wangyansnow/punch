@@ -1,5 +1,5 @@
 const db = wx.cloud.database({
-  env: "wangyan123"
+  env: "liveme-sports-6d27d4"
 })
 const _ = db.command
 const app = getApp()
@@ -182,6 +182,7 @@ Page({
         var username = that.data.username
         if (that.data.user != null) {
           username = that.data.user.username
+          console.log('username:'+username)
         } 
 
         const imageName = username + app.globalData.openId+'/'+now.getFullYear()+'-'+month+'-'+now.getDate()+'-'+now.getHours()+'-'+now.getMinutes()+'-'+now.getSeconds()

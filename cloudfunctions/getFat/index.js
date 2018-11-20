@@ -5,18 +5,27 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const promise = db.collection('fits').where({
+  const fit_promise = db.collection('fits').where({
     _openid: event.userInfo.openId
   }).orderBy('createTime', 'desc').limit(1).get()
-  const tasks = []
-  tasks.push(promise)
-  const fits = (await Promise.all(tasks)).reduce((acc, cur)=> {
+
+  const user_promise = db.collection('users').where({
+    openId: event.userInfo.openId
+  }).limit(1).get()
+
+  const tasks = [fit_promise, user_promise]  
+  const results = await Promise.all(tasks)
+
+  console.log('results:'+JSON.stringify(results))
+
+  if (results[0].data.length == 0) {
     return {
-      data: acc.data.concat(cur.data),
-      errMsg: acc.errMsg
+      isFit: false
     }
-  })
-  const fit = fits.data[0]
+  }
+
+  const fit = results[0].data[0]
+  const user = results[1].data[0]
 
   const wy_now = new Date()
   var now = new Date()
@@ -29,21 +38,10 @@ exports.main = async (event, context) => {
   console.log('nowStr:' + nowStr + ', fitStr:' + fitStr)
   var isFit = (fitStr == nowStr)
 
-  const userResult = await db.collection('users').where({
-    openId: event.userInfo.openId
-  }).limit(1).get().then(res=> {
-    return {
-      data: res.data
-    }
-  })
-
-  // console.log('user:' + JSON.stringify(userResult))
-
-
   return {
     isFit: isFit,
     fit: fit,
-    user: userResult.data[0]
+    user: user
   }
   
 }

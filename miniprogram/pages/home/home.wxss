@@ -33,6 +33,7 @@
   height: 50px;
   border-radius: 25px;
   border: 2px solid #e5e5e5;
+  box-sizing: border-box;
 }
 
 .wy_cardView {

@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
   var users = await db.collection('users').get().then(res=> {
     return res.data
   })
-  console.log('users:'+JSON.stringify(users))
+  // console.log('users:'+JSON.stringify(users))
 
   var now = new Date()
   now = new Date(now.getTime() - event.timeOffset * 60000)
@@ -48,25 +48,31 @@ exports.main = async (event, context) => {
 
   // 3. 遍历获取每个用户的打卡次数
   var weeks = []
+  var tasks = []
+  
   for (var i = 0; i < users.length; ++i) {
     var user = users[i]
 
-    const count = await db.collection('fits').where({
+    const promise = db.collection('fits').where({
       _openid: user.openId,
       createTime: _.gt(fromTime).and(_.lt(toTime))
-    }).count().then(res=> {
-      return res.total
-    })
+    }).count()
+    tasks.push(promise)
+  }
+
+  const counts = await Promise.all(tasks)
+
+  for (var i = 0; i < users.length; ++i) {
+    var user = users[i];
+    var count = counts[i].total;
 
     const week = {
       user: user,
       count: count
     }
-    
+
     weeks.push(week)
   }
   
   return weeks
-
-
 }

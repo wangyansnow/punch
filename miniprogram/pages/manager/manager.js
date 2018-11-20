@@ -1,5 +1,5 @@
 const db = wx.cloud.database({
-  env: "wangyan123"
+  env: "liveme-sports-6d27d4"
 })
 const _ = db.command
 const app = getApp()
