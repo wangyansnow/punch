@@ -27,7 +27,6 @@ exports.main = async (event, context) => {
   if (week == -1) {
     week = 6
   }
-  
 
   var fromTime;
   var toTime;

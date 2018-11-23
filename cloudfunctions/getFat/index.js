@@ -30,7 +30,7 @@ exports.main = async (event, context) => {
   const wy_now = new Date()
   var now = new Date()
   now = new Date(now.getTime() - event.offset * 60000);
-  console.log('wy_now:' + wy_now + ', now:'+now)
+  // console.log('wy_now:' + wy_now + ', now:'+now)
 
   const nowStr = 'date' + now.getFullYear() + now.getMonth() + now.getDate()
   const fitStr = 'date' + fit.createTime.getFullYear() + fit.createTime.getMonth() + fit.createTime.getDate()

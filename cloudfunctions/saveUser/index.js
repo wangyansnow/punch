@@ -5,7 +5,7 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  console.log('data:'+JSON.stringify(event))
+  // console.log('event:'+JSON.stringify(event))
 
   const countResult = await db.collection('users').where({
     openId: event.userInfo.openId
