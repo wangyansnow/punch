@@ -39,6 +39,8 @@ Page({
       title: '数据加载中...',
     })
     const now = new Date()
+    const start = Date.parse(now) + now.getMilliseconds()
+    console.log('start:'+start)
     const timeOffset = now.getTimezoneOffset()
     wx.cloud.callFunction({
       name: 'weekFit',
@@ -47,8 +49,14 @@ Page({
         timeOffset: timeOffset
       }
     }).then(res=> {
+      const time1 = new Date()
+      const end1 = Date.parse(time1) + time1.getMilliseconds()
+      console.log('end1:' + (end1 - start))
       this.handleResult(res.result)
       wx.hideLoading()
+      const endTime = new Date()
+      const end = Date.parse(endTime) + endTime.getMilliseconds()
+      console.log('end:' + (end - start))
     }).catch(res=> {
       console.log('fail res:'+JSON.stringify(res))
       wx.hideLoading()

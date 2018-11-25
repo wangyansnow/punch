@@ -19,7 +19,8 @@ Page({
     user: null,
     year: '',
     month: '',
-    imgsrc: '../../images/add.png'
+    imgsrc: '../../images/add.png',
+    groupId: null
   },
 
   /**
@@ -28,6 +29,10 @@ Page({
   onLoad: function (options) {
     this.judgeFit()
     this.setWeek()
+
+    wx.showShareMenu({
+      withShareTicket: true
+    })
   },
 
   setWeek: function() {
@@ -254,7 +259,72 @@ Page({
     })
   },
 
-  onShareAppMessage: function() {
+  shareBtnClick: function() {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+  },
+
+  getShareTicketBtnClick: function() {
+    // console.log('share ticket btn click:'+app.globalData.shareTicket)
+    if (app.globalData.shareTicket == null) {
+      wx.showToast({
+        title: '没有房间号',
+        image: './../../images/add.png'
+      })
+      return
+    }
+    var that = this
+    wx.login({
+      success(res) {
+        const code = res.code
+        console.log('code:'+code)
+        wx.getShareInfo({
+          shareTicket: app.globalData.shareTicket,
+          complete(res) {
+            wx.cloud.callFunction({
+              name: 'decrypt',
+              data: {
+                code: code,
+                iv: res.iv,
+                encryptedData: res.encryptedData
+              }
+            }).then(res => {
+              console.log('succ:' + JSON.stringify(res))
+              console.log('groupId:'+res.result.openGId)
+              wx.showToast({
+                title: '获取房间号成功',
+              })
+              that.setData({
+                groupId: res.result.openGId
+              })
+            }).catch(res => {
+              console.log('fail:' + JSON.stringify(res))
+              wx.showToast({
+                title: '获取房间号失败',
+                image: './../../images/add.png'
+              })
+            })
+          }
+        })
+      }
+    })
+  },
+
+  onShareAppMessage: function(event) {
+    if (event.from == 'button') {
+      console.log('点击按钮转发')
+    } else {
+      console.log('点击顶部转发')
+    }
+
+    // return {
+    //   title: '页面分享标题',
+    //   path: '/pages/home/home',
+    //   success(res) {
+    //     console.log("shareTicket:"+res.shareTickets[0]) // 奇怪为什么 shareTickets 是个数组？这个数组永远只有一个值。
+    //   }
+    // }
 
   }
 })

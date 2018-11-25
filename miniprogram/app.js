@@ -1,6 +1,7 @@
 //app.js
 App({
-  onLaunch: function () {
+  onLaunch: function (options) {
+    console.log('options:'+JSON.stringify(options));
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
@@ -8,6 +9,11 @@ App({
         traceUser: true,
       })
     }
+
+    if (options.scene == 1044) { // 从群进来的
+      this.globalData.shareTicket = options.shareTicket;
+    }
+    console.log('ticket:'+this.globalData.shareTicket)
 
     wx.cloud.callFunction({
       name: 'login',
@@ -26,6 +32,7 @@ App({
           wx.getUserInfo({
             success: res => {
               // 可以将 res 发送给后台解码出 unionId
+              // console.log('res:'+JSON.stringify(res))
               this.globalData.userInfo = res.userInfo
               // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
               // 所以此处加入 callback 以防止这种情况
@@ -44,6 +51,7 @@ App({
   globalData: {
     userInfo: null,
     openId: null,
-    username: ''
+    username: '',
+    shareTicket: null
   }
 })

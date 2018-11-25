@@ -10,6 +10,7 @@
  * 
  */
 exports.main = (event, context) => {
+  console.log('event:'+JSON.stringify(event))
   console.log(event)
   console.log(context)
   // 可执行其他自定义逻辑

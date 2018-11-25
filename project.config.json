@@ -31,9 +31,16 @@
 			"current": 0,
 			"list": [
 				{
-					"id": -1,
+					"id": 0,
 					"name": "db guide",
-					"pathName": "pages/databaseGuide/databaseGuide"
+					"pathName": "pages/home/home",
+					"query": "",
+					"scene": "1044",
+					"shareInfo": {
+						"groupName": "测试模拟群0",
+						"shareName": "gsfZG1DGumGQ5Y0w2MeOKckop-ubA22hyTUcWz3Odik@cr4dev",
+						"shareKey": "9Bbw20gh-ph8lk63883C4LRr-vej9xnf4UeU299VCJ6aGYJLa3_YyZ9QmHWvnVpSvVgHaSe42_ZO45gkYRWT2Q~~"
+					}
 				}
 			]
 		}

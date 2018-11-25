@@ -15,5 +15,11 @@
       <image src='{{imgsrc}}' class='home_image' mode='scaleToFill' bindtap='imageClick'></image>
       <button class='fitBtn' open-type='getUserInfo' bindgetuserinfo='onGetUserInfo' form-type='reset'>{{isFit ? '再打一次' : '打卡'}}</button>
     </form>
+    <button open-type='share'>群分享</button>
+    <button bindtap='getShareTicketBtnClick'>获取shareTicket</button>
+    <view>
+      <open-data type="groupName" open-gid="{{groupId}}"></open-data>
+      <text>{{groupId}}</text>
+    </view>
   </view>
 </view>

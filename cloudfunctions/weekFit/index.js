@@ -66,7 +66,7 @@ exports.main = async (event, context) => {
     var count = counts[i].total;
 
     const week = {
-      user: user,
+      user:user,
       count: count
     }
 
