@@ -19,7 +19,8 @@ Page({
     user: null,
     year: '',
     month: '',
-    imgsrc: '../../images/add.png'
+    imgsrc: '../../images/add.png',
+    canUse: false
   },
 
   /**
@@ -28,6 +29,16 @@ Page({
   onLoad: function (options) {
     this.judgeFit()
     this.setWeek()
+    this.getConfig()
+  },
+
+  getConfig: function() {
+    db.collection('config').doc('W_pyEyfIZl09sR1x').get().then(res=> {
+      console.log('config res:' + JSON.stringify(res))
+      this.setData({
+        canUse: res.data.canUse
+      })
+    })
   },
 
   setWeek: function() {
@@ -69,8 +80,8 @@ Page({
         this.setData({
           isFit: res.result.isFit,
           // fileId: fileId,
-          username: res.result.fit.username,
           user: res.result.user,
+          username: res.result.fit.username,
           // imgsrc: fileId,
           // desc: res.result.fit.description
         })
@@ -94,6 +105,54 @@ Page({
     })
   },
 
+  wy_getUser: function(e) {
+    if (e.detail.userInfo == null) {
+      wx.showToast({
+        title: '请先授权',
+      })
+      return;
+    } 
+
+    if (this.data.user == null) {
+      console.log('保存用户')
+      wx.cloud.callFunction({
+        name: 'saveUser',
+        data: {
+          'user': e.detail.userInfo,
+          'username': this.data.username
+        }
+      }).then(res => {
+        console.log('保存用户成功：' + JSON.stringify(res))
+      }).catch(res => {
+        console.log('保存用户错误：' + JSON.stringify(res))
+      })
+    }
+
+    var that = this
+    db.collection('fits').add({
+      data: {
+        createTime: db.serverDate(),
+        wxname: e.detail.userInfo.nickName
+      }
+    }).then(res => {
+      console.log('save succ:' + JSON.stringify(res));
+      that.setData({
+        isFit: true
+      });
+      wx.showToast({
+        title: '打卡成功',
+        duration: 2000
+      })
+    }).catch(res => {
+      console.log('save error:' + JSON.stringify(res));
+      wx.showToast({
+        title: '打卡异常了，请重新打卡',
+        duration: 1.0
+      })
+    })
+
+  },
+
   onGetUserInfo: function(e) {
     console.log('拿到用户信息')
     if (e.detail.userInfo == null) {
@@ -102,6 +161,10 @@ Page({
       })
       return;
     } 
+
+    if (this.data.username == null && this.data.user != null) {
+      this.data.username = this.data.user.username
+    }
 
     if (this.data.username == null || this.data.username.length == 0) {
       wx.showToast({
@@ -253,8 +316,4 @@ Page({
       })
     })
   },
-
-  onShareAppMessage: function() {
-
-  }
 })
