@@ -20,7 +20,7 @@
     <!-- <text>{{index + 1}}</text> -->
     <image src='{{item.user.userInfo.avatarUrl}}' class='user_icon'></image>
     <view class='user_label_view'>
-      <text class='user_name'>{{item.user.username}}</text>
+      <text class='user_name'>{{item.user.username == null ? item.user.userInfo.nickName : item.user.username}}</text>
     <text class='user_fit_count'>{{isLastWeek ? '上周' : '本周'}}{{item.count}}次</text>
     </view>
   </view>
