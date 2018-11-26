@@ -90,3 +90,9 @@
   margin-right: 27px;
   margin-bottom: 46px;
 }
+
+.picker {
+  height: 40px;
+  margin-top: -20px;
+  width: 80%;
+}

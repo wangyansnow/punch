@@ -1,7 +1,9 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 cloud.init()
-const db = cloud.database()
+const db = cloud.database({
+  env: 'mojing-test-60d1ed'
+})
 const _ = db.command
 
 // 云函数入口函数

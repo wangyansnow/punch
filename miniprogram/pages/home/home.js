@@ -1,5 +1,5 @@
 const db = wx.cloud.database({
-  env: "mojing-123"
+  env: "mojing-test-60d1ed"
 })
 const _ = db.command
 const app = getApp()
@@ -20,7 +20,8 @@ Page({
     year: '',
     month: '',
     imgsrc: '../../images/add.png',
-    canUse: false
+    canUse: false,
+    date: null
   },
 
   /**
@@ -33,7 +34,9 @@ Page({
   },
 
   getConfig: function() {
-    db.collection('config').doc('W_pyEyfIZl09sR1x').get().then(res=> {
+    // const _id = 'W_pyEyfIZl09sR1x' // 线上环境
+    const _id = 'W_u2vifIZl09sR3l' // 测试环境
+    db.collection('config').doc(_id).get().then(res=> {
       console.log('config res:' + JSON.stringify(res))
       this.setData({
         canUse: res.data.canUse
@@ -75,6 +78,7 @@ Page({
         offset: offset
       }
     }).then(res => {
+      console.log('judgeFit:'+JSON.stringify(res))
       if (res.result.isFit) {
         const fileId = res.result.fit.fileId
         this.setData({
@@ -314,6 +318,45 @@ Page({
         title: '打卡异常了，请重新打卡',
         duration: 1.0
       })
+    })
+  },
+
+  // 补打卡
+  patchBtnClick: function() {
+    console.log('patchBtnClick')
+
+    var date = Date.parse(this.data.date)
+    date = new Date(date)
+    console.log('date:'+date)
+
+    var that = this
+    db.collection('fits').add({
+      data: {
+        description: "补打卡",
+        createTime: date,
+        username: this.data.username,
+        isPatch: true
+      }
+    }).then(res => {
+      that.setData({
+        isFit: true,
+      });
+      wx.showToast({
+        title: '补打卡成功',
+        duration: 2000
+      })
+    }).catch(res => {
+      console.log('save error:' + JSON.stringify(res));
+      wx.showToast({
+        title: '补打卡异常了，请重新打卡',
+        duration: 1.0
+      })
+    })
+  },
+
+  dateChanged: function(e) {
+    this.setData({
+      date: e.detail.value
     })
   },
 })

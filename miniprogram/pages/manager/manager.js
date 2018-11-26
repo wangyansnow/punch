@@ -1,6 +1,4 @@
-const db = wx.cloud.database({
-  env: "mojing-123"
-})
+const db = wx.cloud.database()
 const _ = db.command
 const app = getApp()
 
