@@ -21,7 +21,9 @@ Page({
     month: '',
     imgsrc: '../../images/add.png',
     canUse: false,
-    date: null
+    date: '',
+    start: '',
+    end: ''
   },
 
   /**
@@ -31,13 +33,34 @@ Page({
     this.judgeFit()
     this.setWeek()
     this.getConfig()
+    this.setupPicker()
+  },
+
+  setupPicker: function() {
+    // 昨天
+    var yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+    // 7天前
+    var sevenDayAgo = new Date()
+    sevenDayAgo.setDate(sevenDayAgo.getDate() - 7)
+
+    const start = sevenDayAgo.getFullYear() + '-' + (sevenDayAgo.getMonth() + 1) + '-' + sevenDayAgo.getDate()
+    const end = yesterday.getFullYear() + '-'+ (yesterday.getMonth() + 1) + '-' + yesterday.getDate()
+
+    console.log('start:'+start+', end:'+end)
+
+    this.setData({
+      start: start,
+      end: end,
+      date: end
+    })
   },
 
   getConfig: function() {
     // const _id = 'W_pyEyfIZl09sR1x' // 线上环境
     const _id = 'W_u2vifIZl09sR3l' // 测试环境
     db.collection('config').doc(_id).get().then(res=> {
-      console.log('config res:' + JSON.stringify(res))
+      // console.log('config res:' + JSON.stringify(res))
       this.setData({
         canUse: res.data.canUse
       })
@@ -78,7 +101,7 @@ Page({
         offset: offset
       }
     }).then(res => {
-      console.log('judgeFit:'+JSON.stringify(res))
+      // console.log('judgeFit:'+JSON.stringify(res))
       if (res.result.isFit) {
         const fileId = res.result.fit.fileId
         this.setData({

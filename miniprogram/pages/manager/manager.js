@@ -130,6 +130,19 @@ Page({
     })
   },
 
+  weekCellClick: function(e) {
+    const item = e.currentTarget.dataset.item
+    console.log('click item:' + JSON.stringify(item))
+    var offset = 0
+    if (this.data.isLastWeek) {
+      offset = 1
+    }
+
+    wx.navigateTo({
+      url: '../weekDetail/weekDetail?avatar='+item.user.userInfo.avatarUrl+'&username='+item.user.username+'&offset='+offset,
+    })
+  },
+
   onShareAppMessage: function () {
     
   },

@@ -14,7 +14,7 @@
       <image src='{{imgsrc}}' class='home_image' mode='scaleToFill' bindtap='imageClick'></image>
       <button class='fitBtn' open-type='getUserInfo' bindgetuserinfo='onGetUserInfo'>{{isFit ? '再打一次' : '打卡'}}</button>
       <button class='fitBtn' bindtap='patchBtnClick'>补打卡</button>
-      <picker mode='date' start='2018-11-20' end='2018-11-25' bindchange='dateChanged'>
+      <picker mode='date' start='{{start}}' end='{{end}}' bindchange='dateChanged'>
      <view class='picker'>当前选择{{date}}</view>
      </picker>
   </view>

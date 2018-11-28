@@ -2,7 +2,9 @@
   "cloud": true,
   "pages": [
     "pages/home/home",
-    "pages/manager/manager"
+    "pages/weekDetail/weekDetail",
+    "pages/manager/manager",
+    "pages/imageDetail/imageDetail"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

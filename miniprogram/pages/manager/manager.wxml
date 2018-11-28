@@ -16,7 +16,7 @@
   </view>
 
 <!-- 排名 头像  名称 打卡次数-->
-  <view wx:for='{{weeks}}' wx:key='unique_{{index}}' class='manager_row'>
+  <view wx:for='{{weeks}}' wx:key='unique_{{index}}' class='manager_row' bindtap='weekCellClick' data-item='{{item}}'>
     <!-- <text>{{index + 1}}</text> -->
     <image src='{{item.user.userInfo.avatarUrl}}' class='user_icon'></image>
     <view class='user_label_view'>

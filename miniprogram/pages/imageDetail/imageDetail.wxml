@@ -1,0 +1,3 @@
+<view class='container'>
+  <image src='{{file_id}}' mode='widthFix' class='full_image'></image>
+</view>
