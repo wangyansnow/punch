@@ -1,6 +1,4 @@
-const db = wx.cloud.database({
-  env: "mojing-test-60d1ed"
-})
+const db = wx.cloud.database()
 const _ = db.command
 const app = getApp()
 
@@ -32,8 +30,8 @@ Page({
   onLoad: function (options) {
     this.judgeFit()
     this.setWeek()
-    this.getConfig()
-    this.setupPicker()
+    // this.getConfig()
+    // this.setupPicker()
   },
 
   setupPicker: function() {
@@ -57,8 +55,8 @@ Page({
   },
 
   getConfig: function() {
-    // const _id = 'W_pyEyfIZl09sR1x' // 线上环境
-    const _id = 'W_u2vifIZl09sR3l' // 测试环境
+    const _id = 'W_pyEyfIZl09sR1x' // 线上环境
+    // const _id = 'W_u2vifIZl09sR3l' // 测试环境
     db.collection('config').doc(_id).get().then(res=> {
       // console.log('config res:' + JSON.stringify(res))
       this.setData({

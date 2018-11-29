@@ -7,8 +7,8 @@ App({
       wx.cloud.init({
         traceUser: true,
         env: {
-          database: 'mojing-test-60d1ed',
-          functions: 'mojing-test-60d1ed'
+          database: 'mojing-123',
+          functions: 'mojing-123'
         }
       })
     }

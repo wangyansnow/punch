@@ -131,16 +131,17 @@ Page({
   },
 
   weekCellClick: function(e) {
-    const item = e.currentTarget.dataset.item
-    console.log('click item:' + JSON.stringify(item))
-    var offset = 0
-    if (this.data.isLastWeek) {
-      offset = 1
-    }
+    // const item = e.currentTarget.dataset.item
+    // console.log('click item:' + JSON.stringify(item))
+    // var offset = 0
+    // if (this.data.isLastWeek) {
+    //   offset = 1
+    // }
 
-    wx.navigateTo({
-      url: '../weekDetail/weekDetail?avatar='+item.user.userInfo.avatarUrl+'&username='+item.user.username+'&offset='+offset,
-    })
+    // const username = item.user.username == null ? item.user.userInfo.nickName : item.user.username
+    // wx.navigateTo({
+    //   url: '../weekDetail/weekDetail?avatar='+item.user.userInfo.avatarUrl+'&username='+username+'&offset='+offset+'&openId='+item.user.openId,
+    // })
   },
 
   onShareAppMessage: function () {

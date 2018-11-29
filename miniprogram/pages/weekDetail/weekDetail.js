@@ -19,22 +19,24 @@ Page({
     const username = options.username
     const avatar = options.avatar
     const offset = options.offset
-    console.log('offset:'+offset)
+    const openId = options.openId
+    
     wx.setNavigationBarTitle({
-      title: username+'的打卡详情',
+      title: username,
     })
 
-    this.weekDetail(offset)
+    this.weekDetail(offset, openId)
   },
 
-  weekDetail: function(offset) {
+  weekDetail: function(offset, openId) {
     const now = new Date()
     const timeOffset = now.getTimezoneOffset() 
     wx.cloud.callFunction({
       name: 'weekDetail',
       data: {
         timeOffset: timeOffset,
-        offset: offset
+        offset: offset,
+        openId: openId
       }
     }).then(res=> {
       console.log('weekDetail succ:'+JSON.stringify(res))

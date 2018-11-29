@@ -12,7 +12,7 @@ Page({
    */
   onLoad: function (options) {
     const file_id = options.file_id
-
+    
     this.setData({
       file_id: file_id
     })

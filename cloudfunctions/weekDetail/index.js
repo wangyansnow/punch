@@ -2,7 +2,7 @@
 const cloud = require('wx-server-sdk')
 cloud.init()
 const db = cloud.database({
-  env: 'mojing-test-60d1ed'
+  env: 'mojing-123'
 })
 const _ = db.command
 
@@ -43,7 +43,7 @@ exports.main = async (event, context) => {
   }
 
   const fits = db.collection('fits').where({
-    _openid: event.userInfo.openId,
+    _openid: event.openId,
     createTime: _.gt(fromTime).and(_.lt(toTime))
   }).orderBy('createTime', 'desc').get(res=> {
     return res.data

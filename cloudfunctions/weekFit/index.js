@@ -2,7 +2,7 @@
 const cloud = require('wx-server-sdk')
 cloud.init()
 const db = cloud.database({
-  env: 'mojing-test-60d1ed'
+  env: 'mojing-123'
 })
 const _ = db.command
 
