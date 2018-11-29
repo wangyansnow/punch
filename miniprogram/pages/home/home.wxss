@@ -64,7 +64,10 @@
 }
 
 .home_input {
-  border: 1px solid #3e3e4d17;
+  /* border: 1px solid #3e3e4d17; */
+  border: #e5e5e5;
+  border-style: solid;
+  border-width: 1px;
   margin-left: 27px;
   border-radius: 4px;
   margin-right: 27px;
