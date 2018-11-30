@@ -76,12 +76,19 @@ Page({
     const index = e.currentTarget.dataset.index
     const item  = this.data.dataSource[index]
 
-    // console.log('delete:'+JSON.stringify(item))
+    var fileId = ''
+    if (item.fileId) {
+      fileId = item.fileId
+    }
+    console.log('lg:'+fileId.length)
+    console.log('delete:'+JSON.stringify(item))
+
     var that = this
     wx.cloud.callFunction({
       name: 'deleteFit',
       data: {
-        fitId: item._id
+        fitId: item._id,
+        fileId: fileId
       }
     }).then(res=> {
       if (res.result) {

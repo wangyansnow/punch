@@ -21,7 +21,8 @@ Page({
     canUse: false,
     date: '',
     start: '',
-    end: ''
+    end: '',
+    fieldValue: ''
   },
 
   /**
@@ -134,6 +135,7 @@ Page({
     if (e.detail.userInfo == null) {
       wx.showToast({
         title: '请先授权',
+        image: '../../images/error.png',
       })
       return;
     } 
@@ -172,7 +174,8 @@ Page({
       console.log('save error:' + JSON.stringify(res));
       wx.showToast({
         title: '打卡异常了，请重新打卡',
-        duration: 1.0
+        image: '../../images/error.png',
+        duration: 2000
       })
     })
 
@@ -183,6 +186,7 @@ Page({
     if (e.detail.userInfo == null) {
       wx.showToast({
         title: '请先授权',
+        image: '../../images/error.png',
       })
       return;
     } 
@@ -194,6 +198,7 @@ Page({
     if (this.data.username == null || this.data.username.length == 0) {
       wx.showToast({
         title: '请填写真实姓名',
+        image: '../../images/error.png',
       })
       return;
     }
@@ -201,6 +206,7 @@ Page({
     if (this.data.desc == null || this.data.desc.length == 0) {
       wx.showToast({
         title: '请填写运动类型',
+        image: '../../images/error.png',
       })
       return;
     }
@@ -208,6 +214,7 @@ Page({
     if (this.data.fileId == null) {
       wx.showToast({
         title: '请上传打卡图片',
+        image: '../../images/error.png',
       })
       return;
     }
@@ -327,7 +334,8 @@ Page({
         isFit: true,
         desc: '',
         fileId: null,
-        imgsrc: '../../images/add.png'
+        imgsrc: '../../images/add.png',
+        fieldValue: '',
       });
       wx.showToast({
         title: '打卡成功',
@@ -337,7 +345,8 @@ Page({
       console.log('save error:' + JSON.stringify(res));
       wx.showToast({
         title: '打卡异常了，请重新打卡',
-        duration: 1.0
+        image: '../../images/error.png',
+        duration: 2000
       })
     })
   },
@@ -370,7 +379,8 @@ Page({
       console.log('save error:' + JSON.stringify(res));
       wx.showToast({
         title: '补打卡异常了，请重新打卡',
-        duration: 1.0
+        image: '../../images/error.png',
+        duration: 2000
       })
     })
   },
