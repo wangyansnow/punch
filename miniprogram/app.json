@@ -1,9 +1,9 @@
 {
   "cloud": true,
   "pages": [
+    "pages/manager/manager",
     "pages/home/home",
     "pages/weekDetail/weekDetail",
-    "pages/manager/manager",
     "pages/imageDetail/imageDetail"
   ],
   "window": {

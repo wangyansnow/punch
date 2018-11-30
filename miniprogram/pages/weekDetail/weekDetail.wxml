@@ -1,7 +1,10 @@
 <view class='wy_container'>
-  <view wx:for='{{dataSource}}' wx:key='unique_{{index}}' class='cell'>
-    <text>日期：{{item.time}}</text>
-    <text>锻炼内容：{{item.description}}</text>
-    <image src='{{item.fileId}}' mode='aspectFit' class='image' bindtap='imageClick' data-file_id='{{item.fileId}}'></image>
+  <view wx:for='{{dataSource}}' wx:key='{{item._id}}' class='cell'>
+    <text class='date'>日期：{{item.time}}</text>
+    <text class='desc'>锻炼内容：{{item.description}}</text>
+    <view class='img_view'>
+      <image src='{{item.fileId}}' mode='scaleToFill' class='image' bindtap='imageClick' data-file_id='{{item.fileId}}'></image>
+      <button class='deleteBtn' open-type='getUserInfo' bindtap='deleteBtnClick' data-index='{{index}}'>删除</button>
+    </view>
   </view>
 </view>

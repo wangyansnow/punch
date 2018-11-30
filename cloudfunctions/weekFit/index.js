@@ -63,13 +63,28 @@ exports.main = async (event, context) => {
 
   const counts = await Promise.all(tasks)
 
+  var wy_now = new Date()
+  wy_now = new Date(wy_now.getTime() - event.timeOffset * 60000)
+  var wy_week = wy_now.getDay()
+  if (wy_week == 0) {
+    wy_week = 7;
+  } // 1~7 => 周一 ~ 周日
+
   for (var i = 0; i < users.length; ++i) {
-    var user = users[i];
-    var count = counts[i].total;
+    var user = users[i]
+    var count = counts[i].total
+    var isWarn = count < 3
+
+    if (event.offset == 0) { // 本周
+      if (wy_week < 4) {
+        isWarn = false;
+      }
+    }
 
     const week = {
       user: user,
-      count: count
+      count: count,
+      isWarn: isWarn
     }
 
     weeks.push(week)

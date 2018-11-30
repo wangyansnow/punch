@@ -1,9 +1,43 @@
 .cell {
   display: flex;
   flex-direction: column;
+  margin: 10px 10px 0px 10px;
+  background: #f5f5f5;
+  border-radius: 4px;
 }
 
 .image {
   width: 100px;
   height: 100px;
+  margin-top: 3px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.img_view {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.deleteBtn {
+  background: #e54c66;
+  width: 80px;
+  height: 40px;
+  margin-right: 20px;
+  color: white;
+}
+
+.date {
+  margin-top: 10px;
+  margin-left: 10px;
+  color: #3e3e4d;
+}
+
+.desc {
+  margin-top: 2px;
+  margin-left: 10px;
+  color: #3e3e4d;
 }

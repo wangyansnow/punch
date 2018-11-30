@@ -30,8 +30,8 @@ Page({
   onLoad: function (options) {
     this.judgeFit()
     this.setWeek()
-    // this.getConfig()
-    // this.setupPicker()
+    this.getConfig()
+    this.setupPicker()
   },
 
   setupPicker: function() {

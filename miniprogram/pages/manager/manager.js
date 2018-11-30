@@ -56,14 +56,13 @@ Page({
 
   handleResult: function(result) {
     function compare(u1, u2) {
-      return u1.count < u2.count
+      return u2.count - u1.count
     }
     result.sort(compare)
 
     this.setData({
       weeks:result
     })
-    // console.log('succ res:' + JSON.stringify(result))
   },
 
   thisWeekBtnClick: function() {
@@ -119,13 +118,13 @@ Page({
       _openid: openId,
       createTime: _.gt(fromTime).and(_.lt(toTime))
     }).count().then(res=> {
-      // console.log('res:'+res.total)
+      console.log('myFit succ:'+res.total)
       this.setData({
         myFitCount: res.total
       })
       wx.stopPullDownRefresh()
     }).catch(res=> {
-      console.log('res:' + JSON.stringify(res))
+      console.log('myFit fail:' + JSON.stringify(res))
       wx.stopPullDownRefresh()
     })
   },
@@ -142,6 +141,16 @@ Page({
     wx.navigateTo({
       url: '../weekDetail/weekDetail?avatar='+item.user.userInfo.avatarUrl+'&username='+username+'&offset='+offset+'&openId='+item.user.openId,
     })
+  },
+
+  iconClick: function() {
+    var offset = 0
+    if (this.data.isLastWeek) {
+      offset = 1
+    }
+
+    var username = app.globalData.username
+
   },
 
   onShareAppMessage: function () {
