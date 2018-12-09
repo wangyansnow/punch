@@ -18,19 +18,17 @@ exports.main = async (event, context) => {
     return false
   })
 
-  if (event.fileId.length > 0) { // 删除文件
-    const fileRs = await cloud.deleteFile({
-      fileList: [event.fileId]
-    }).then(res=> {
-      console.log('delete file succ:'+JSON.stringify(res))
-    }).catch(res=> {
-      console.log('delete file fail:' + JSON.stringify(res))
-    })
+  // if (event.fileId.length > 0) { // 删除文件
+  //   const fileRs = await cloud.deleteFile({
+  //     fileList: [event.fileId]
+  //   }).then(res=> {
+  //     console.log('delete file succ:'+JSON.stringify(res))
+  //   }).catch(res=> {
+  //     console.log('delete file fail:' + JSON.stringify(res))
+  //   })
 
-    console.log('fileRs:'+JSON.stringify(fileRs))
-  }
-
-
+  //   console.log('fileRs:'+JSON.stringify(fileRs))
+  // }
   
   return result;
 }

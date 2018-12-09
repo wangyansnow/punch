@@ -1,12 +1,11 @@
 <view class='wy_container'>
-  <view class='wy_topView'>
+  <view class='wy_topView, wy_bg'>
     <text class='wy_year'>{{year}}</text>
     <text class='wy_month'>{{month}}</text>
-    <view class='wy_icon'>
+    <view class='wy_icon' bindtap='iconViewClick'>
       <open-data type="userAvatarUrl"></open-data>
     </view>
   </view>
-  <!-- <view wx:if='{{canUse}}' class='wy_cardView'> -->
   <view class='wy_cardView'>
     <text wx:if='{{!isFit}}' class='card_title'>锻炼辛苦了，打完卡好好休息吧🙂</text>
     <text wx:else class='card_title'>今天已经打卡</text>
@@ -19,9 +18,4 @@
      <view class='picker'>当前选择{{date}}</view>
      </picker> -->
   </view>
-  <!-- <view wx:else class='wy_no_card'>
-     <text wx:if='{{!isFit}}' class='card_title'>锻炼辛苦了，打完卡好好休息吧🙂</text>
-    <text wx:else class='card_title'>今天已经打卡</text>
-     <button class='fitBtn' open-type='getUserInfo' bindgetuserinfo='wy_getUser' form-type='reset'>{{isFit ? '再打一次' : '打卡'}}</button>
-  </view> -->
 </view>

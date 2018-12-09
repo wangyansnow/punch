@@ -9,24 +9,37 @@ Page({
    * 页面的初始数据
    */
   data: {
-    dataSource: []
+    dataSource: [],
+    isMe: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log('op:'+JSON.stringify(options))
-    const username = options.username
-    const avatar = options.avatar
-    const offset = options.offset
-    const openId = options.openId
-    
-    wx.setNavigationBarTitle({
-      title: username,
-    })
+    console.log('op:'+JSON.stringify(options))
 
-    this.weekDetail(offset, openId)
+    const offset = options.offset
+    const isMe = options.isMe;
+
+    if (isMe) {
+      console.log('weekDetail isMe')
+      this.setData({
+        isMe: isMe
+      })
+
+      this.weekDetail(offset, '')
+    } else {
+      const username = options.username
+      const avatar = options.avatar
+      const openId = options.openId
+
+      wx.setNavigationBarTitle({
+        title: username,
+      })
+
+      this.weekDetail(offset, openId)
+    }
   },
 
   weekDetail: function(offset, openId) {
@@ -40,13 +53,13 @@ Page({
         openId: openId
       }
     }).then(res=> {
-      // console.log('weekDetail succ:'+JSON.stringify(res))
+      console.log('weekDetail succ:'+JSON.stringify(res))
       
       var ds = []
-      const count = res.result.data.length
-      console.log('count:'+res.result.data.length)
+      const count = res.result.fits.data.length
+      console.log('count:' + res.result.fits.data.length)
       for (var i = 0; i < count; i++) {
-          var item = res.result.data[i]
+          var item = res.result.fits.data[i]
         // console.log('item:' + JSON.stringify(item))
           const date = new Date(item.createTime)
           item.time = wy_date.formatTime(date)
@@ -55,7 +68,8 @@ Page({
       }
       console.log('结束')
       this.setData({
-        dataSource: ds
+        dataSource: ds,
+        isMe: res.result.isMe
       })
 
     }).catch(res=> {
@@ -84,13 +98,34 @@ Page({
     console.log('delete:'+JSON.stringify(item))
 
     var that = this
+    wx.showModal({
+      title: '确定删除',
+      content: '删除后不可恢复请想好',
+      success: function(res) {
+        console.log('model:'+JSON.stringify(res))
+        if (res.confirm) {
+          console.log('点击了确定')
+          that.deleteFit(item._id, fileId, index)
+        } else if (res.cancel) {
+          console.log('点击了取消')
+        }
+      }
+    })
+  },
+
+  deleteFit: function(fitId, fileId, index) {
+    var that = this
+    wx.showLoading({
+      title: '玩命删除中...',
+    })
     wx.cloud.callFunction({
       name: 'deleteFit',
       data: {
-        fitId: item._id,
+        fitId: fitId,
         fileId: fileId
       }
-    }).then(res=> {
+    }).then(res => {
+      wx.hideLoading()
       if (res.result) {
         wx.showToast({
           title: '删除成功',
@@ -102,7 +137,8 @@ Page({
       } else {
         that.deleteFail()
       }
-    }).catch(res=> {
+    }).catch(res => {
+      wx.hideLoading()
       console.log('delete fail:' + JSON.stringify(res))
       that.deleteFail()
     })

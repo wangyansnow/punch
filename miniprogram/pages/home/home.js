@@ -351,6 +351,15 @@ Page({
     })
   },
 
+  // 点击头像
+  iconViewClick: function() {
+    console.log('点击了头像')
+
+    wx.navigateTo({
+      url: '../weekDetail/weekDetail?isMe=true&offset=0',
+    })
+  },
+
   // 补打卡
   patchBtnClick: function() {
     console.log('patchBtnClick')

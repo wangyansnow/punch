@@ -143,14 +143,15 @@ Page({
     })
   },
 
-  iconClick: function() {
+  iconViewClick: function() {
     var offset = 0
     if (this.data.isLastWeek) {
       offset = 1
     }
 
-    var username = app.globalData.username
-
+    wx.navigateTo({
+      url: '../weekDetail/weekDetail?isMe=true&offset='+offset,
+    })
   },
 
   onShareAppMessage: function () {

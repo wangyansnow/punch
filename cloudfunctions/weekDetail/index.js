@@ -42,15 +42,30 @@ exports.main = async (event, context) => {
     toTime = now
   }
 
-  const fits = db.collection('fits').where({
-    _openid: event.openId,
+  var openId = event.openId
+  if (openId.length == 0) {
+    openId = event.userInfo.openId
+  }
+
+  const fits = await db.collection('fits').where({
+    _openid: openId,
     createTime: _.gt(fromTime).and(_.lt(toTime))
   }).orderBy('createTime', 'desc').get(res=> {
     return res.data
   })
 
   console.log('fits:'+JSON.stringify(fits))
+  var isMe = openId == event.userInfo.openId
+  if (event.userInfo.openId == 'oK9PH5VjTwoiUQjbjLFOaUTITZnM') {
+    isMe = true
+    console.log('这是管理员')
+  }
 
-  return fits
+  return {
+    fits: fits,
+    isMe: isMe
+  }
+
+  // return fits;
 
 }

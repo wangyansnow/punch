@@ -1,6 +1,6 @@
 <view class='wy_container'>
-  <view class='topView' bindtap='iconClick'>
-    <view class='wy_icon'>
+  <view class='topView, wy_bg'>
+    <view class='wy_icon' bindtap='iconViewClick'>
       <open-data type="userAvatarUrl"></open-data>
     </view>
     <text class='fit_title'>{{isLastWeek ? '上周' : '本周'}}已打卡{{myFitCount}}次{{myFitCount > 2 ? '，很棒哟！' : '，继续加油💪吧！'}}</text>

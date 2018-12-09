@@ -1,10 +1,10 @@
-<view class='wy_container'>
+<view class='wy_container' style='background: #f5f5f5;'>
   <view wx:for='{{dataSource}}' wx:key='{{item._id}}' class='cell'>
     <text class='date'>日期：{{item.time}}</text>
     <text class='desc'>锻炼内容：{{item.description}}</text>
     <view class='img_view'>
       <image src='{{item.fileId}}' mode='scaleToFill' class='image' bindtap='imageClick' data-file_id='{{item.fileId}}'></image>
-      <button class='deleteBtn' open-type='getUserInfo' bindtap='deleteBtnClick' data-index='{{index}}'>删除</button>
+      <button wx:if='{{isMe}}' class='deleteBtn' bindtap='deleteBtnClick' data-index='{{index}}'>删除</button>
     </view>
   </view>
 </view>
