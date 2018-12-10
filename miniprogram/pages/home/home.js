@@ -281,8 +281,12 @@ Page({
         } 
 
         const imageName = username + app.globalData.openId+'/'+now.getFullYear()+'-'+month+'-'+now.getDate()+'-'+now.getHours()+'-'+now.getMinutes()+'-'+now.getSeconds()
-        const cloudPath = imageName + filePath.match(/\.[^.]+?$/)[0]
+        var cloudPath = imageName + filePath.match(/\.[^.]+?$/)[0]
         console.log('cloudPath:'+cloudPath)
+
+        cloudPath = cloudPath.replace(/\s+/g, '')
+        console.log('去掉空格后 cloudPath:' + cloudPath)
+
         wx.cloud.uploadFile({
           cloudPath,
           filePath,

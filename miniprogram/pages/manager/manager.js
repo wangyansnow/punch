@@ -63,6 +63,10 @@ Page({
     this.setData({
       weeks:result
     })
+
+    // result.forEach(function(item) {
+    //   console.log(item.user.username+' '+item.count)
+    // })
   },
 
   thisWeekBtnClick: function() {
