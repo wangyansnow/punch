@@ -33,6 +33,19 @@ Page({
     this.setWeek()
     this.getConfig()
     this.setupPicker()
+
+    var that = this
+    wx.getStorage({
+      key: 'user',
+      success: function(res) {
+        console.log('getStorage:'+JSON.stringify(res))
+        if (res.data) {
+          that.setData({
+            user:res.data
+          })
+        }
+      },
+    })
   },
 
   setupPicker: function() {
@@ -89,9 +102,9 @@ Page({
   },
 
   judgeFit: function() {
-    wx.showLoading({
-      title: '数据加载中...',
-    })
+    // wx.showLoading({
+    //   title: '数据加载中...',
+    // })
     const now = new Date()
     const offset = now.getTimezoneOffset()
     wx.cloud.callFunction({
@@ -112,6 +125,14 @@ Page({
           // desc: res.result.fit.description
         })
         console.log('已打卡')
+        const user = res.result.user
+        if (user) {
+          wx.setStorage({
+            key: 'user',
+            data: user,
+          })
+        }
+
       } else {
         this.setData({
           isFit: res.result.isFit,

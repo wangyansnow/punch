@@ -1,5 +1,13 @@
 //app.js
 App({
+  globalData: {
+    userInfo: null,
+    openId: null,
+    username: '',
+    systemInfo: null,
+    SDKVersion: 223,
+  },
+
   onLaunch: function () {
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
@@ -10,6 +18,18 @@ App({
           database: 'mojing-123',
           functions: 'mojing-123'
         }
+      })
+
+      var that = this;
+      wx.getSystemInfo({
+        success: function(res) {
+          var version = res.SDKVersion
+          version = version.replace(/\./g, "")
+          that.globalData.SDKVersion = version
+          that.globalData.systemInfo = res
+          console.log('version:'+ that.globalData.SDKVersion)
+          console.log('systemInfo:' + JSON.stringify(that.globalData.systemInfo))
+        },
       })
     }
 
@@ -44,10 +64,4 @@ App({
       }
     })
   },
-
-  globalData: {
-    userInfo: null,
-    openId: null,
-    username: ''
-  }
 })

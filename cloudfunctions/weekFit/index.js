@@ -9,12 +9,13 @@ const _ = db.command
 // 云函数入口函数
 exports.main = async (event, context) => {
 
+  console.log("王俨 开始")
   // 1. 获取所有的用户
   var users = await db.collection('users').get().then(res=> {
     return res.data
   })
-  // console.log('users:'+JSON.stringify(users))
-
+  // console.log('王俨 users:'+JSON.stringify(users))
+  
   var now = new Date()
   now = new Date(now.getTime() - event.timeOffset * 60000)
   const hour = now.getHours()
@@ -49,19 +50,37 @@ exports.main = async (event, context) => {
 
   // 3. 遍历获取每个用户的打卡次数
   var weeks = []
-  var tasks = []
+  var totalCounts = []
   
-  for (var i = 0; i < users.length; ++i) {
-    var user = users[i]
+  var totalLength = users.length
+  var start = 0;
 
-    const promise = db.collection('fits').where({
-      _openid: user.openId,
-      createTime: _.gt(fromTime).and(_.lt(toTime))
-    }).count()
-    tasks.push(promise)
+  // console.log("开始 while")
+  while (start < totalLength) {
+    var nextStart = start + 20;
+    if (nextStart > totalLength) {
+      nextStart = totalLength
+    }
+
+    var tasks = []
+    for (var i = start; i < nextStart; ++i) {
+      var user = users[i]
+
+      const promise = db.collection('fits').where({
+        _openid: user.openId,
+        createTime: _.gt(fromTime).and(_.lt(toTime))
+      }).count()
+      tasks.push(promise)
+    }
+    const counts = await Promise.all(tasks)
+    for (var j = 0; j < counts.length; j++) {
+      var item = counts[j]
+      totalCounts.push(item)
+    }
+    start = nextStart
   }
 
-  const counts = await Promise.all(tasks)
+  // console.log("过来了:" + JSON.stringify(totalCounts))
 
   var wy_now = new Date()
   wy_now = new Date(wy_now.getTime() - event.timeOffset * 60000)
@@ -70,9 +89,9 @@ exports.main = async (event, context) => {
     wy_week = 7;
   } // 1~7 => 周一 ~ 周日
 
-  for (var i = 0; i < users.length; ++i) {
+  for (var i = 0; i < totalLength; ++i) {
     var user = users[i]
-    var count = counts[i].total
+    var count = totalCounts[i].total
     var isWarn = count < 3
 
     if (event.offset == 0) { // 本周

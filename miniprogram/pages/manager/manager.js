@@ -63,10 +63,20 @@ Page({
     this.setData({
       weeks:result
     })
-
-    // result.forEach(function(item) {
-    //   console.log(item.user.username+' '+item.count)
-    // })
+    
+    if (app.globalData.openId == 'oK9PH5VjTwoiUQjbjLFOaUTITZnM') {
+      var str = "";
+      result.forEach(function (item) {
+        var itemStr = item.user.username + ' ' + item.count + '\n';
+        str += itemStr;
+      })
+      wx.setClipboardData({
+        data: str,
+        success(res) {
+          console.log("clipborad copy succ");
+        }
+      })
+    }
   },
 
   thisWeekBtnClick: function() {
