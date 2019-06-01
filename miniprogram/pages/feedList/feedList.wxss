@@ -1,0 +1,101 @@
+.wy_topView {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  width: 100%;
+}
+
+.wy_icon {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  margin-top: 97px;
+  margin-left: 80%;
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  border: 2px solid #e5e5e5;
+  box-sizing: border-box;
+}
+.image2 {
+display: block;
+  overflow: hidden;
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 6px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  border: 2px solid #e5e5e5;
+  box-sizing: border-box;
+}
+
+.ds_name{
+  position: absolute;
+  margin-top: 110px;
+  margin-left: 60%;
+  width: 50px;
+  height: 50px;
+  color: #ffffff;
+  font-weight: bold;
+
+  font-size:20px;
+}
+
+.home_image {
+  height: 90px;
+  width: 90px;
+  margin-top: 24px;
+  margin-left: 27px;
+  border-radius: 4px;
+}
+
+
+
+
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 10px 0px 10px;
+  background: white;
+  border-radius: 4px;
+}
+
+.name{
+  margin-top: 13px;
+  margin-left: 65px;
+  color: #000000;
+  font-weight: bold;
+  font-size: 15;
+}
+
+.image {
+  width: 112.5px;
+  height: 200px;
+  margin-top: 3px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+
+
+.desc {
+  margin-top: 8px;
+  margin-left: 10px;
+  color: #3e3e4d;
+  font-size:17px;
+}
+
+.date {
+  margin-top: 2px;
+  margin-left: 65px;
+  color: #91919cd7;
+  font-size:14px;
+}
+
+.divLine{
+ background: #E0E3DA;
+ width: 100%;
+ height: 2rpx;
+}

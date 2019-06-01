@@ -4,7 +4,8 @@
     "pages/home/home",
     "pages/manager/manager",
     "pages/weekDetail/weekDetail",
-    "pages/imageDetail/imageDetail"
+    "pages/imageDetail/imageDetail",
+    "pages/feedList/feedList"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -16,16 +17,25 @@
   "tabBar": {
     "color": "#3e3e4d20",
     "selectedColor": "#3e3e4d",
-    "list": [{
-      "pagePath": "pages/home/home",
-      "text": "打卡",
-      "iconPath": "images/tab_clockin_icn_unselected.png",
-      "selectedIconPath": "images/tab_clockin_icn_selected.png"
-    }, {
-      "pagePath": "pages/manager/manager",
-      "text": "记录",
-      "iconPath": "images/tab_record_icn_unselected.png",
-      "selectedIconPath": "images/tab_record_icn_selected.png"
-    }]
-  }
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "打卡",
+        "iconPath": "images/tab_clockin_icn_unselected.png",
+        "selectedIconPath": "images/tab_clockin_icn_selected.png"
+      },
+      {
+        "pagePath": "pages/manager/manager",
+        "text": "记录",
+        "iconPath": "images/tab_record_icn_unselected.png",
+        "selectedIconPath": "images/tab_record_icn_selected.png"
+      },{
+        "pagePath": "pages/feedList/feedList",
+        "text": "动态",
+        "iconPath": "images/tab_record_icn_unselected.png",
+        "selectedIconPath": "images/tab_record_icn_selected.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
 }

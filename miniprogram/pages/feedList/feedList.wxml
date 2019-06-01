@@ -1,0 +1,22 @@
+<!--pages/feedList/feedList.wxml-->
+<view class='wy_container'>
+  <view class='wy_topView, wy_bg'>
+    <view class='ds_name'><open-data type="userNickName"></open-data></view>
+    <view class='wy_icon' bindtap='iconViewClick'>
+      <open-data type="userAvatarUrl"></open-data>
+    </view>
+  </view>
+<view wx:for='{{dataSource}}' wx:key='{{item._id}}' class='cell'>
+    
+    
+ <image src='{{item.avatar}}' mode='scaleToFill' class='image2' bindtap='imageClick' data-file_id='{{item.avatar}}'></image>
+
+    <text class='name'>{{item.username}}</text>
+    <text class='date'>{{item.time}}</text>
+    <text class='desc'>锻炼内容：{{item.description}}</text>
+    <view class='img_view'>
+      <image src='{{item.fileId}}' mode='scaleToFill' class='image' bindtap='imageClick' data-file_id='{{item.fileId}}'></image>
+      <view class="container"><view class="divLine"></view></view>
+    </view>
+  </view>
+</view>

@@ -180,7 +180,8 @@ Page({
     db.collection('fits').add({
       data: {
         createTime: db.serverDate(),
-        wxname: e.detail.userInfo.nickName
+        wxname: e.detail.userInfo.nickName,
+        wxavatar: e.detail.userInfo.avatarUrl
       }
     }).then(res => {
       console.log('save succ:' + JSON.stringify(res));
