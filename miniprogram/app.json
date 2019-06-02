@@ -5,7 +5,8 @@
     "pages/manager/manager",
     "pages/weekDetail/weekDetail",
     "pages/imageDetail/imageDetail",
-    "pages/feedList/feedList"
+    "pages/feedList/feedList",
+    "pages/steepRank/steepRank"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
