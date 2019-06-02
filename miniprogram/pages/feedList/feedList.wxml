@@ -9,13 +9,13 @@
 <view wx:for='{{dataSource}}' wx:key='{{item._id}}' class='cell'>
     
     
- <image src='{{item.avatar}}' mode='scaleToFill' class='image2' bindtap='imageClick' data-file_id='{{item.avatar}}'></image>
+ <image src='{{item.avatar}}' mode='scaleToFill' class='image2' bindtap='weekCellClick' data-item='{{item}}' data-file_id='{{item.avatar}}'></image>
 
     <text class='name'>{{item.username}}</text>
     <text class='date'>{{item.time}}</text>
     <text class='desc'>锻炼内容：{{item.description}}</text>
     <view class='img_view'>
-      <image src='{{item.fileId}}' mode='scaleToFill' class='image' bindtap='imageClick' data-file_id='{{item.fileId}}'></image>
+      <image src='{{item.fileId}}' mode='scaleToFill' class='image' data-file_id='{{item.fileId}}'></image>
       <view class="container"><view class="divLine"></view></view>
     </view>
   </view>

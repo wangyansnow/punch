@@ -17,10 +17,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.feedList(1)
+    this.feedList(0)
   },
 
   feedList: function (page) {
+    wx.showLoading({
+      title: '数据加载中...',
+    })
+
     const now = new Date()
     const timeOffset = now.getTimezoneOffset()
     wx.cloud.callFunction({
@@ -31,68 +35,55 @@ Page({
     }).then(res => {
       var ds = []
       const count = res.result.fits.data.length
-      var ids = []
+      var users = res.result.users.data;
+     
       for (var i = 0; i < count; i++) {
         var item = res.result.fits.data[i]
-        console.log(JSON.stringify(item))
         const date = new Date(item.createTime)
         item.time = wy_date.formatSimpleTime(date)
-        ids.push(item._openid)
-        ds.push(item)
-      }
-      this.setUserAvatar(ds, ids)
-    }).catch(res => {
-      console.log('weekDetail fail:' + res)
-    })
-  },
-
-
-
-  setUserAvatar: function (ds2, ids) {
-
-    wx.cloud.callFunction({
-      name: 'getUser',
-      data: {
-        openIds: ids
-      }
-    }).then(res => {
-
-      var users = res.result.users.data;
-      
-      const count = ds2.length
-      for (var i = 0; i < count; i++) {
-       var item = ds2[i];
-
-        for(var j =0 ;j< users.length;j++){
+        
+        for (var j = 0; j < users.length; j++) {
           var user = users[j];
           if (item._openid == user.openId){
             item.avatar = user.userInfo.avatarUrl
             item.username = user.username
+            break;
           }
         }
+
+        ds.push(item)
       }
 
       this.setData({
-        dataSource: ds2
+        dataSource: ds
       })
 
-   }).catch(res => {
-    console.log('weekDetail fail:' + res)
-  })
- },
-
-searchAvatar:function(openId){
-
-
-},
-
+       wx.hideLoading()
+       wx.stopPullDownRefresh()
+    }).catch(res => {
+      console.log('weekDetail fail:' + res)
+      wx.hideLoading()
+      wx.stopPullDownRefresh()
+    })
+  },
 
 
+  weekCellClick: function (e) {
+    const item = e.currentTarget.dataset.item
+    var offset = 0
+    const username = item.username
+    wx.navigateTo({
+      url: '../weekDetail/weekDetail?avatar=' + item.avatarUrl + '&username=' + username + '&offset=' + offset + '&openId=' + item._openid,
+    })
+  },
 
+  iconViewClick: function () {
+    var offset = 0
 
-
-
-
+    wx.navigateTo({
+      url: '../weekDetail/weekDetail?isMe=true&offset=' + offset,
+    })
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -126,7 +117,7 @@ searchAvatar:function(openId){
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.feedList(0)
   },
 
   /**

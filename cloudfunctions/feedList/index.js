@@ -11,8 +11,15 @@ exports.main = async (event, context) => {
     return res.data
   })
 
+  const users = await db.collection('users').where({
+    _openid: event.ids
+  }).get(res => {
+    return res.data
+  })
+
   return {
-    fits: fits
+    fits: fits,
+    users: users
   }
 
 }
