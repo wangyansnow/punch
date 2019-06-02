@@ -85,6 +85,25 @@ Page({
     })
   },
 
+  imageClick: function(e) {
+    const file_id = e.currentTarget.dataset.file_id
+    console.log('fileId:' + file_id)
+
+    if (app.globalData.SDKVersion > 222) {
+      var urls = []
+      const count = this.data.dataSource.length
+      urls.push(file_id)
+      wx.previewImage({
+        current: file_id,
+        urls: urls,
+      })
+    } else {
+      wx.navigateTo({
+        url: '../imageDetail/imageDetail?file_id=' + file_id,
+      })
+    }
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
